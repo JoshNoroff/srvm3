@@ -4,9 +4,10 @@ const fs = require('fs');
 var path = require('path');
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3()
+const { requiresAuth } = require('express-openid-connect');
 
 //GET
-router.get('/', async function (req, res, next) {
+router.get('/', requiresAuth(), async function (req, res, next) {
   var params = {
     Bucket: process.env.CYCLIC_BUCKET_NAME,
     Delimiter: '/',
@@ -28,7 +29,7 @@ router.get('/', async function (req, res, next) {
 });
  
 /*POST upload pictures*/
-router.post('/', async function(req, res, next) {
+router.post('/', requiresAuth(), async function(req, res, next) {
   const file = req.files.file;
   console.log(req.files);
   await s3.putObject({
