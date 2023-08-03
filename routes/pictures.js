@@ -3,7 +3,7 @@ var router = express.Router();
 const fs = require('fs');
 var path = require('path');
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   const pictures = fs.readdirSync(path.join(__dirname, '../pictures/'));
   res.render('pictures', { pictures: pictures});
 });
